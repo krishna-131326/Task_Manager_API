@@ -1,55 +1,123 @@
 # Task Manager API
 
-## Project Overview
-
-This is a simple Task Manager API built using **FastAPI** and **MongoDB**. It allows users to keep track of tasks by creating, updating, reading, and deleting them. Each task has a title, status (pending or completed), and the time it was created. The API can be tested using Swagger UI or tools like Postman or curl.
-
+A small asynchronous REST API for managing tasks with FastAPI and MongoDB.
+The project keeps its structure straightforward while demonstrating validation,
+database integration, automated tests, and interactive API documentation.
+It requires Python 3.10 or newer.
 
 ## Features
 
-- Add a new task  
-- View all tasks (with optional filtering by status)  
-- Update a task's title or status  
-- Delete a task  
+- Create tasks with a title and status
+- List all tasks or filter them by status
+- Update task details
+- Delete tasks
+- Validate request data with Pydantic
+- Access MongoDB asynchronously with Motor
+- Explore the API through Swagger UI
 
-Each task includes:
-- a title
-- a status (either "pending" or "completed")
-- the date and time when it was created
+## Tech Stack
 
+| Technology | Purpose |
+| --- | --- |
+| Python | Programming language |
+| FastAPI | Web framework |
+| MongoDB | Document database |
+| Motor | Async MongoDB driver |
+| Pydantic | Request and response validation |
+| Uvicorn | ASGI server |
+| Pytest | Automated testing |
+| HTTPX | Test client dependency |
+| Python-dotenv | Environment variable loading |
 
-## Technologies Used
+## Project Structure
 
-- **FastAPI** – For building the API
-- **Motor** – Async MongoDB driver
-- **MongoDB** – NoSQL database for storing tasks
-- **Pydantic** – For data validation
-- **Uvicorn** – ASGI server to run the app
-- **python-dotenv** – To load environment variables from `.env` file
+```text
+Task_Manager_API/
+|-- database/
+|   `-- mongo.py
+|-- models/
+|   `-- task_model.py
+|-- routers/
+|   `-- task.py
+|-- schemas/
+|   `-- task_schema.py
+|-- tests/
+|   `-- test_api.py
+|-- .env.example
+|-- .gitignore
+|-- LICENSE
+|-- main.py
+|-- README.md
+`-- requirements.txt
+```
 
+## Installation
 
-
-## API Routes Documentation
-
-| Method | Route              | Description                       |
-|--------|--------------------|-----------------------------------|
-| GET    | `/`                | Welcome message                   |
-| GET    | `/tasks`           | Get all tasks (optional filter by status) |
-| POST   | `/tasks`           | Add a new task                    |
-| PUT    | `/tasks/{task_id}` | Update title/status of a task     |
-| DELETE | `/tasks/{task_id}` | Delete a task                     |
-
-## Setup Instructions
-
-### 1. Prerequisites
-
-Make sure you have Python 3.8 or above installed on your system.
-
-### 2. Install Required Libraries
-
-Use the following command to install the necessary Python packages:
-
-bash
+```bash
+git clone <repository-url>
+cd Task_Manager_API
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
+```
 
+On macOS or Linux, activate the environment with `source venv/bin/activate`.
 
+## Environment Variables
+
+Copy `.env.example` to `.env`, then update the values if needed:
+
+```env
+MONGODB_URL=mongodb://localhost:27017
+DATABASE_NAME=task_manager
+```
+
+Make sure MongoDB is running before starting the API.
+
+## Running Locally
+
+```bash
+uvicorn main:app --reload
+```
+
+The API will be available at `http://127.0.0.1:8000`.
+
+## API Documentation
+
+With the server running, open the interactive Swagger UI:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+## Example API Routes
+
+| Method | Route | Description |
+| --- | --- | --- |
+| GET | `/` | Return a welcome message |
+| GET | `/tasks` | List tasks; optionally filter with `?status=pending` |
+| POST | `/tasks` | Create a task |
+| PUT | `/tasks/{task_id}` | Update a task |
+| DELETE | `/tasks/{task_id}` | Delete a task |
+
+Task statuses can be `pending` or `completed`.
+
+## Running Tests
+
+```bash
+pytest -v
+```
+
+Tests use a lightweight in-memory fake collection, so MongoDB does not need to
+be running during the test suite.
+
+## Future Improvements
+
+- Authentication
+- Pagination
+- Task search
+- Docker deployment
+
+## License
+
+This project is available under the [MIT License](LICENSE).
